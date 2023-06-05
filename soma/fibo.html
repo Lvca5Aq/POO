@@ -1,0 +1,16 @@
+<script>
+    var x = parseFloat(prompt("qual numero voce deseja checar se esta na sequencia de fibonacci"))
+    var y = 0
+    var w = 1
+    var soma = 0
+    while(x>soma){
+        y = soma
+        soma = y + w
+        w = y
+    }
+    if(soma==x){
+        console.log("o numero pertence a sequencia")
+    }else{
+        console.log("o numero nao pertence a sequencia")
+    }
+</script>
