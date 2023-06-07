@@ -1,18 +1,10 @@
 import java.math.BigInteger;
 
-public class ClienteOuro extends Cliente{
-    public float taxa;
+public class ClientePlatina extends Cliente{
     private float credito;
     private float divida;
+    private float milhas;
 
-
-    public float getTaxa() {
-        return taxa;
-    }
-
-    public void setTaxa(float taxa) {
-        this.taxa = taxa;
-    }
 
     public float getCredito() {
         return credito;
@@ -30,41 +22,48 @@ public class ClienteOuro extends Cliente{
         this.divida = divida;
     }
 
-    public ClienteOuro(String nome, String sobreNome, BigInteger cpf, float saldo, long senha) {
-        super(nome, sobreNome, cpf, saldo, senha);
-        this.taxa = 0.025f;
-        this.credito = saldo*4f;
-        this.divida = 0;
+    public float getMilhas() {
+        return milhas;
     }
 
+    public void setMilhas(float milhas) {
+        this.milhas = milhas;
+    }
+
+    public ClientePlatina(String nome, String sobreNome, BigInteger cpf, float saldo, long senha) {
+        super(nome, sobreNome, cpf, saldo, senha);
+        this.credito = 6f*saldo;
+        this.divida = 0f;
+        this.milhas = 0f;
+    }
     @Override
     public String fazerSaque(float s) throws Exceções.limiteSuperado {
-        float T = s*this.getTaxa();
         this.setLimiteDeSaque(this.getSaldo()*0.25f);
         if(s>this.getLimiteDeSaque()) {
             throw new Exceções.limiteSuperado("O limite de saque foi superado");
-        }else if(s>this.getSaldo()+T){
-            throw new Exceções.limiteSuperado("O valor do saque ultrapassa o valor do saldo mas a taxa");
+        }else if(s>this.getSaldo()){
+            throw new Exceções.limiteSuperado("O valor do saque ultrapassa o valor do saldo");
         }else {
-            this.setSaldo(s+T-this.getSaldo());
+            this.setSaldo(this.getSaldo()-s);
             return "Saque feito com sucesso seu novo saldo é: " + this.getSaldo() + " R$";
         }
     }
+
     @Override
     public String CompraCartao(float s) throws Exceções.limiteSuperado {
-        float T = s*this.getTaxa();
-        if(s+T>this.getSaldo()+this.getCredito()){
-            throw new Exceções.limiteSuperado("O valor da compra ultrapassa o valor do saldo");
-        }else if(s+T<this.getSaldo()){
-            this.setSaldo(s+T-this.getSaldo());
+        if(s>this.getSaldo()+this.getCredito()){
+            throw new Exceções.limiteSuperado("O valor da compra ultrapassa o valor do credito e do saldo juntos");
+        }else if(s<this.getSaldo()){
+            this.setSaldo(this.getSaldo()-s);
+            this.setMilhas(0.1f*s);
             return "Compra feita com sucesso seu novo saldo é: " + this.getSaldo() + " R$";
         } else {
-            this.setDivida(-1*(this.getSaldo()-(s+T)));
-            this.setCredito(this.getCredito()-(s-this.getSaldo()));
+            this.setDivida(s-this.getSaldo());
             this.setSaldo(0);
             return "Compra feita com cartao de credito seu novo saldo é: " + this.getSaldo() + " R$ e uma divida de " + this.getDivida() + " R$";
         }
     }
+
     public String pagaCartao(float v) throws Exceções.valorSuperior, Exceções.limiteSuperado {
         if (v>this.getDivida()){
             throw  new Exceções.valorSuperior("O valor que voce esta querendo pagar excede o valor da divida, que é de "+ this.getDivida()+ " R$");
@@ -77,4 +76,7 @@ public class ClienteOuro extends Cliente{
             return "Valor pago com sucesso";
         }
     }
+
+
+
 }

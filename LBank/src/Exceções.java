@@ -36,6 +36,18 @@ public class Exceções extends RuntimeException{
             super();
             this.msg = msg;
         }
+    }
 
+    public static class valorSuperior extends Throwable {
+        String msg;
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public valorSuperior(String msg) {
+            super();
+            this.msg = msg;
+        }
     }
 }

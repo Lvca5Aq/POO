@@ -5,6 +5,7 @@ public abstract class Cliente extends Pessoa {
     private long senha;
     private float limiteDeSaque;
 
+
     public Cliente(String nome, String sobreNome, BigInteger cpf, float saldo, long senha) {
         super(nome, sobreNome, cpf);
         this.saldo = saldo;
@@ -40,14 +41,6 @@ public abstract class Cliente extends Pessoa {
     public String trocarSenha(long s){
         this.setSenha(s);
         return "Senha alterada com sucesso";
-    }
-
-    public String fazerLogin(long s) throws Exceções.senhaErrada {
-        if (s != this.getSenha()) {
-            throw new Exceções.senhaErrada("Senha incorreta");
-        } else {
-            return "Login feito com sucesso";
-        }
     }
 
     public String fazerDeposito(float d) throws Exceções.depositoVazio {

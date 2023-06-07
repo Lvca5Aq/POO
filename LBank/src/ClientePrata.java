@@ -6,6 +6,7 @@ public class ClientePrata extends Cliente{
     public ClientePrata(String nome, String sobreNome, BigInteger cpf, float saldo, long senha) {
         super(nome, sobreNome, cpf, saldo, senha);
         this.taxa = 0.05f;
+
     }
 
     public float getTaxa() {
