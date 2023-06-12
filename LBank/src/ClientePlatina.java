@@ -103,4 +103,14 @@ public class ClientePlatina extends Cliente implements Investir{
         }
     }
 
+    @Override
+    public String toString() {
+        return "ClientePlatina{" +
+                "credito=" + credito +
+                ", divida=" + divida +
+                ", milhas=" + milhas +
+                ", nome='" + nome + '\'' +
+                ", sobreNome='" + sobreNome + '\'' +
+                '}';
+    }
 }

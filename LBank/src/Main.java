@@ -7,14 +7,21 @@ public class Main {
         ArrayList<ClientePrata> pratas = new ArrayList<ClientePrata>();
         ArrayList<ClienteOuro> ouros = new ArrayList<ClienteOuro>();
         ArrayList<ClientePlatina> platinas = new ArrayList<ClientePlatina>();
+        Funcionario Lucas = new Funcionario("Lucas","Aquino",626594,2207,58227);
         Map <String, Stock> listInvestimetos = new TreeMap<String, Stock>();
-        ClientePlatina lucas = new ClientePlatina("lucas","aquino", 626594,10000f,5822727);
+        Stock PETR4 = new Stock(86885,40,2);
+        Stock ABEV3 = new Stock(66685,25,3);
+        Stock CMIG4 = new Stock(67775,5,10);
+        listInvestimetos.put("86885",PETR4);
+        listInvestimetos.put("66685",ABEV3);
+        listInvestimetos.put("67775",CMIG4);
         Scanner s = new Scanner(System.in);
         int op = 0;
         int opl=0;
         do {
             System.out.println("Digite 1 para fazer o login");
             System.out.println("Digite 2 para fazer o cadastro");
+            System.out.println("Digite 3 para logar como funcionario");
             System.out.println("Digite 9 para sair");
             try {
                 op = s.nextInt();
@@ -131,6 +138,7 @@ public class Main {
                                     try {
                                         valorC = s.nextFloat();
                                         System.out.println(client.CompraCartao(valorC));
+                                        concluido=true;
                                     } catch (InputMismatchException e) {
                                         System.out.println("Você digitou uma letra onde deveria digitar um numero. Por favor insira um numero");
                                     } catch (Exceções.limiteSuperado e) {
@@ -213,6 +221,7 @@ public class Main {
                                             try {
                                                 valorM = s.nextInt();
                                                 System.out.println(platina.converterMilhas(valorM));
+                                                concluido = true;
                                             }catch (InputMismatchException e){
                                                 System.out.println("Você digitou uma letra onde deveria digitar um numero. Por favor insira um numero");
                                             } catch (Exceções.limiteSuperado e){
@@ -231,7 +240,7 @@ public class Main {
                                     if (ouro.getCpf()==cpf){
                                         encontrado = true;
                                         int codI;
-                                        Stock I = new Stock();
+                                        Stock I = null;
                                         float valor;
                                         do {
                                             System.out.println("Aqui esta a nossa lista de investimentos que temos disponiveis:");
@@ -267,7 +276,7 @@ public class Main {
                                     if (platina.getCpf()==cpf){
                                         encontrado = true;
                                         int codI;
-                                        Stock I = new Stock();
+                                        Stock I = null;
                                         float valor;
                                         do {
                                             System.out.println("Aqui esta a nossa lista de investimentos que temos disponiveis:");
@@ -307,92 +316,166 @@ public class Main {
                     }
                 }
             }else if(op==2){
-                long cpfC=0;
                 float saldo=0;
-                boolean repetido=true;
+                boolean repetido=false;
                 boolean concluido = false;
                 do {
-                    System.out.println("Vamos fazer seu cadastro. Me informe o seu cpf(apenas 6 digitos)");
+                    long cpfC = 0;
+                    System.out.println("Vamos fazer seu cadastro. Me informe o seu CPF (apenas 6 dígitos):");
                     try {
+                        s.nextLine(); // Descartar quebra de linha pendente ou entrada inválida
                         cpfC = s.nextLong();
-                    }catch(InputMismatchException e){
-                        System.out.println("Você digitou uma letra onde deveria digitar um numero. Por favor insira um numero");
+                        System.out.println(cpfC);
+                    } catch (InputMismatchException e) {
+                        System.out.println("Você digitou uma letra onde deveria digitar um número. Por favor, insira um número.");
+                        s.nextLine(); // Descartar entrada inválida
                     }
-                    for (Cliente cliente:clientes){
-                        if (cpfC!= cliente.getCpf()){
-                            do {
-                            System.out.println("Cpf aceito");
-                            repetido=false;
-                            System.out.println("Agora me diga qual sera o deposito inicial");
-                            try {
-                                saldo=s.nextFloat();
-                            }catch (InputMismatchException e){
-                                System.out.println("Você digitou uma letra onde deveria digitar um numero. Por favor insira um numero");
-                            }
-                            if (saldo<5000){
-                                    String nome = new String();
-                                    String sobrenome = new String();
-                                    long senha = 0;
-                                    try {
-                                        System.out.println("Agora me diga o seu primeiro nome");
-                                        nome = s.nextLine();
-                                        System.out.println("Agora me diga o seu segundo nome");
-                                        sobrenome = s.nextLine();
-                                        System.out.println("Agora me diga a sua senha");
-                                        senha = s.nextLong();
-                                        ClientePrata prata = new ClientePrata(nome,sobrenome,cpfC,saldo,senha);
-                                        clientes.add(prata);
-                                        pratas.add(prata);
-                                        concluido=true;
-                                        System.out.println("Parabens voce foi selecionado para o nosso cliente prata as informaçoes da sua conta sao:" + prata);
-                                    }catch (InputMismatchException e){
-                                        System.out.println("Você digitou o tipo de informação errada.");
-                                    }
-                            } else if (saldo<10000&&saldo>5000) {
-                                    String nome = new String();
-                                    String sobrenome = new String();
-                                    long senha = 0;
-                                    try {
-                                        System.out.println("Agora me diga o seu primeiro nome");
-                                        nome = s.nextLine();
-                                        System.out.println("Agora me diga o seu segundo nome");
-                                        sobrenome = s.nextLine();
-                                        System.out.println("Agora me diga a sua senha");
-                                        senha = s.nextLong();
-                                        ClienteOuro ouro = new ClienteOuro(nome,sobrenome,cpfC,saldo,senha);
-                                        clientes.add(ouro);
-                                        ouros.add(ouro);
-                                        concluido=true;
-                                        System.out.println("Parabens voce foi selecionado para o nosso cliente ouro as informaçoes da sua conta sao:" + ouro);
-                                    }catch (InputMismatchException e){
-                                        System.out.println("Você digitou o tipo de informação errada.");
-                                    }
-                            } else if (saldo>10000){
-                                    String nome = new String();
-                                    String sobrenome = new String();
-                                    long senha = 0;
-                                    try {
-                                        System.out.println("Agora me diga o seu primeiro nome");
-                                        nome = s.nextLine();
-                                        System.out.println("Agora me diga o seu segundo nome");
-                                        sobrenome = s.nextLine();
-                                        System.out.println("Agora me diga a sua senha");
-                                        senha = s.nextLong();
-                                        ClientePlatina platina = new ClientePlatina(nome,sobrenome,cpfC,saldo,senha);
-                                        clientes.add(platina);
-                                        platinas.add(platina);
-                                        concluido=true;
-                                        System.out.println("Parabens voce foi selecionado para o nosso cliente platina as informaçoes da sua conta sao:" + platina);
-                                    }catch (InputMismatchException e){
-                                        System.out.println("Você digitou o tipo de informação errada.");
-                                    }
-                                }
-                            }while (!concluido);
-                        }else {
-                            System.out.println("seu cpf ja esta cadastrado");
+                    for (Cliente cliente : clientes) {
+                        if (cpfC == cliente.getCpf()) {
+                            System.out.println("Seu CPF já está cadastrado.");
+                            repetido = true;
+                            concluido = true;
+                            break;
                         }
                     }
-                }while (repetido);
+
+                    if (!repetido) {
+                        System.out.println("CPF aceito");
+                        System.out.println("Agora me diga qual será o depósito inicial:");
+                        try {
+                            s.nextLine();
+                            saldo = s.nextFloat();
+                        } catch (InputMismatchException e) {
+                            System.out.println("Você digitou uma letra onde deveria digitar um número. Por favor, insira um número.");
+                        }
+                        if (saldo <= 5000) {
+                            String nome = "";
+                            String sobrenome = "";
+                            long senha = 0;
+                            try {
+                                System.out.println("Agora me diga o seu primeiro nome:");
+                                s.nextLine();
+                                nome = s.nextLine();
+                                System.out.println("Agora me diga o seu segundo nome:");
+                                sobrenome = s.nextLine();
+                                System.out.println("Agora me diga a sua senha:");
+                                senha = s.nextLong();
+                                ClientePrata prata = new ClientePrata(nome, sobrenome, cpfC, saldo, senha);
+                                clientes.add(prata);
+                                pratas.add(prata);
+                                concluido = true;
+                                System.out.println("Parabéns! Você foi selecionado para o nosso cliente prata. As informações da sua conta são: " + prata);
+                            } catch (InputMismatchException e) {
+                                System.out.println("Você digitou o tipo de informação errada.");
+                            }
+                        } else if (saldo < 10000 && saldo > 5000) {
+                            String nome = "";
+                            String sobrenome = "";
+                            long senha = 0;
+                            try {
+                                System.out.println("Agora me diga o seu primeiro nome:");
+                                s.nextLine();
+                                nome = s.nextLine();
+                                System.out.println("Agora me diga o seu segundo nome:");
+                                sobrenome = s.nextLine();
+                                System.out.println("Agora me diga a sua senha:");
+                                senha = s.nextLong();
+                                ClienteOuro ouro = new ClienteOuro(nome, sobrenome, cpfC, saldo, senha);
+                                clientes.add(ouro);
+                                ouros.add(ouro);
+                                concluido = true;
+                                System.out.println("Parabéns! Você foi selecionado para o nosso cliente ouro. As informações da sua conta são: " + ouro);
+                            } catch (InputMismatchException e) {
+                                System.out.println("Você digitou o tipo de informação errada.");
+                            }
+                        } else if (saldo >= 10000) {
+                            String nome = "";
+                            String sobrenome = "";
+                            long senha = 0;
+                            try {
+                                System.out.println("Agora me diga o seu primeiro nome:");
+                                s.nextLine();
+                                nome = s.nextLine();
+                                System.out.println("Agora me diga o seu segundo nome:");
+                                sobrenome = s.nextLine();
+                                System.out.println("Agora me diga a sua senha:");
+                                senha = s.nextLong();
+                                ClientePlatina platina = new ClientePlatina(nome, sobrenome, cpfC, saldo, senha);
+                                clientes.add(platina);
+                                platinas.add(platina);
+                                concluido = true;
+                                System.out.println("Parabéns! Você foi selecionado para o nosso cliente platina. As informações da sua conta são: " + platina);
+                            } catch (InputMismatchException e) {
+                                System.out.println("Você digitou o tipo de informação errada.");
+                            }
+                        }
+                    }
+                } while (!concluido);
+            } else if (op == 3) {
+                boolean loginF = false;
+                do {
+                    long matricula = 0;
+                    long senha = 0;
+                    System.out.println("Bem vindo para efetuar seu login preciso da sua matricula");
+                    try {
+                        s.nextLine();
+                        matricula = s.nextLong();
+                    }catch (InputMismatchException e){
+                        System.out.println("Você digitou o tipo de informação errada.");
+                    }
+                    if (matricula != Lucas.getMatricula()){
+                        System.out.println("Matricula errada tente novamente");
+                    } else {
+                        System.out.println("Agora digite a senha");
+                        s.nextLine();
+                        try {
+                            senha = s.nextLong();
+                        }catch (InputMismatchException e){
+                            System.out.println("Você digitou o tipo de informação errada.");
+                        }
+                        if (senha != Lucas.getSenha()){
+                            System.out.println("senha errada tente novamente");
+                        }else {
+                            loginF = true;
+                        }
+                    }
+                } while(!loginF);
+                if (loginF){
+                    int opf = 0;
+                    do {
+                        System.out.println("bem vindo a plataforma do funcionario, aqui voce pode adicionar novos investimentos");
+                        System.out.println("Digite 1 para adicionar um novo investimento");
+                        System.out.println("Digite 9 para sair");
+                        try {
+                            s.nextLine();
+                            opf = s.nextInt();
+                        }catch (InputMismatchException e){
+                            System.out.println("Você digitou o tipo de informação errada.");
+                        }
+                        if (opf == 1){
+                            boolean concluido = false;
+                            do {
+                                int cod = 0;
+                                int probReturn = 0;
+                                int multiplicador = 0;
+                                System.out.println("Para adicionar um novo investimento primeiro me passe o codigo dele(5 digitos)");
+                                try {
+                                    s.nextLine();
+                                    cod = s.nextInt();
+                                    System.out.println("Agora a probabilidade de retorno dele");
+                                    probReturn = s.nextInt();
+                                    System.out.println("Por fim o multiplicador");
+                                    multiplicador = s.nextInt();
+                                    Stock novoInvestimento = new Stock(cod,probReturn,multiplicador);
+                                    listInvestimetos.put(String.valueOf(cod),novoInvestimento);
+                                    concluido = true;
+                                }catch(InputMismatchException e){
+                                    System.out.println("Você digitou o tipo de informação errada.");
+                                }
+                            }while (!concluido);
+                        }
+                    }while (opl!=9);
+                }
             }
         }while (op!=9);
         System.out.println("Obrigado por usar o nosso banco");

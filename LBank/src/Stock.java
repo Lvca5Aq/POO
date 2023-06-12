@@ -26,4 +26,20 @@ public class Stock {
     public void setMultiplicador(int multiplicador) {
         this.multiplicador = multiplicador;
     }
+
+    public Stock(int cod, int probReturn, int multiplicador) {
+        this.cod = cod;
+        this.probReturn = probReturn;
+        this.multiplicador = multiplicador;
+    }
+
+    @Override
+    public String toString() {
+        return "Stock{" +
+                "cod=" + cod +
+                ", probReturn=" + probReturn +
+                "%, multiplicador=" + multiplicador +
+                '}';
+    }
 }
+

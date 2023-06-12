@@ -45,7 +45,7 @@ public class ClientePrata extends Cliente{
         if(s+T>this.getSaldo()){
             throw new Exceções.limiteSuperado("O valor da compra ultrapassa o valor do saldo");
         }else {
-            this.setSaldo(s+T-this.getSaldo());
+            this.setSaldo(this.getSaldo()-s+T);
             return "Compra feita com sucesso, seu novo saldo é: " + this.getSaldo() + " R$";
         }
     }
