@@ -6,7 +6,7 @@ public abstract class Cliente extends Pessoa {
     private float limiteDeSaque;
 
 
-    public Cliente(String nome, String sobreNome, BigInteger cpf, float saldo, long senha) {
+    public Cliente(String nome, String sobreNome, long cpf, float saldo, long senha) {
         super(nome, sobreNome, cpf);
         this.saldo = saldo;
         this.senha = senha;
@@ -38,9 +38,13 @@ public abstract class Cliente extends Pessoa {
         this.limiteDeSaque = limiteDeSaque;
     }
 
-    public String trocarSenha(long s){
-        this.setSenha(s);
-        return "Senha alterada com sucesso";
+    public String trocarSenha(long s) throws Exceções.senhaInaceita {
+        if (String.valueOf(s).length() != 6){
+            throw new Exceções.senhaInaceita("A senha necessita ter exatemente 6 caracteres");
+        }else {
+            this.setSenha(s);
+            return "Senha alterada com sucesso";
+        }
     }
 
     public String fazerDeposito(float d) throws Exceções.depositoVazio {

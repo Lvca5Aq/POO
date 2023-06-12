@@ -50,4 +50,17 @@ public class Exceções extends RuntimeException{
             this.msg = msg;
         }
     }
+
+    public static class senhaInaceita extends Throwable{
+        String msg;
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public senhaInaceita(String msg) {
+            super();
+            this.msg = msg;
+        }
+    }
 }

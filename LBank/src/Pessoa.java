@@ -3,9 +3,9 @@ import java.math.BigInteger;
 public abstract class Pessoa {
     public String nome;
     public String sobreNome;
-    private BigInteger cpf;
+    private long cpf;
 
-    public Pessoa(String nome, String sobreNome, BigInteger cpf) {
+    public Pessoa(String nome, String sobreNome, long cpf) {
         this.nome = nome;
         this.sobreNome = sobreNome;
         this.cpf = cpf;
@@ -27,11 +27,11 @@ public abstract class Pessoa {
         this.sobreNome = sobreNome;
     }
 
-    public BigInteger getCpf() {
+    public long getCpf() {
         return cpf;
     }
 
-    public void setCpf(BigInteger cpf) {
+    public void setCpf(long cpf) {
         this.cpf = cpf;
     }
 }

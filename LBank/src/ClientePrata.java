@@ -3,7 +3,7 @@ import java.math.BigInteger;
 public class ClientePrata extends Cliente{
     public float taxa;
 
-    public ClientePrata(String nome, String sobreNome, BigInteger cpf, float saldo, long senha) {
+    public ClientePrata(String nome, String sobreNome, long cpf, float saldo, long senha) {
         super(nome, sobreNome, cpf, saldo, senha);
         this.taxa = 0.05f;
 
@@ -15,6 +15,15 @@ public class ClientePrata extends Cliente{
 
     public void setTaxa(float taxa) {
         this.taxa = taxa;
+    }
+
+    @Override
+    public String toString() {
+        return "ClientePrata{" +
+                "taxa=" + taxa +
+                ", nome='" + nome + '\'' +
+                ", sobreNome='" + sobreNome + '\'' +
+                '}';
     }
 
     @Override

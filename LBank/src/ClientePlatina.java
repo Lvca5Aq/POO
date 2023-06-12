@@ -1,6 +1,6 @@
 import java.math.BigInteger;
 
-public class ClientePlatina extends Cliente{
+public class ClientePlatina extends Cliente implements Investir{
     private float credito;
     private float divida;
     private float milhas;
@@ -30,7 +30,7 @@ public class ClientePlatina extends Cliente{
         this.milhas = milhas;
     }
 
-    public ClientePlatina(String nome, String sobreNome, BigInteger cpf, float saldo, long senha) {
+    public ClientePlatina(String nome, String sobreNome, long cpf, float saldo, long senha) {
         super(nome, sobreNome, cpf, saldo, senha);
         this.credito = 6f*saldo;
         this.divida = 0f;
@@ -55,7 +55,7 @@ public class ClientePlatina extends Cliente{
             throw new Exceções.limiteSuperado("O valor da compra ultrapassa o valor do credito e do saldo juntos");
         }else if(s<this.getSaldo()){
             this.setSaldo(this.getSaldo()-s);
-            this.setMilhas(0.1f*s);
+            this.setMilhas(Math.round(0.10f*s));
             return "Compra feita com sucesso seu novo saldo é: " + this.getSaldo() + " R$";
         } else {
             this.setDivida(s-this.getSaldo());
@@ -77,6 +77,30 @@ public class ClientePlatina extends Cliente{
         }
     }
 
+    @Override
+    public String fazerInvestimento(float v, Stock a) throws Exceções.limiteSuperado {
+        double sorte;
+        if (v > this.getSaldo()) {
+            throw new Exceções.limiteSuperado("O valor que voce esta querendo investir excede o saldo, que é de " + this.getSaldo() + " R$");
+        }
+        this.setSaldo(this.getSaldo() - v);
+        sorte = Math.round(Math.random() * 100);
+        if (sorte <= a.getProbReturn()) {
+            this.setSaldo(this.getSaldo() + (v * a.getMultiplicador()));
+            return "Parabens seu investimento foi um sucesso o valor investido foi multiplicado por" + a.getMultiplicador() + ". Seu novo saldo é de:" + this.getSaldo() + "R$";
+        } else {
+            return "Infelizmente seu investimento falhou";
+        }
+    }
 
+    public String converterMilhas(int v) throws Exceções.limiteSuperado {
+        if (v>this.getMilhas()){
+            throw new Exceções.limiteSuperado("O valor que voce esta querendo converter excede o saldo de milhas, que é de " + this.getMilhas());
+        }else {
+            this.setSaldo(this.getSaldo()+v);
+            this.setMilhas(this.getMilhas()-v);
+            return "Valor convertido com sucesso.";
+        }
+    }
 
 }
