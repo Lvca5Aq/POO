@@ -474,7 +474,7 @@ public class Main {
                                 }
                             }while (!concluido);
                         }
-                    }while (opl!=9);
+                    }while (opf!=9);
                 }
             }
         }while (op!=9);
